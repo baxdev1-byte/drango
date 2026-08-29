@@ -1,4 +1,5 @@
 from django.shortcuts import render, get_object_or_404
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from blog.models import Post, Category
 
 
@@ -9,6 +10,15 @@ def blog_home(request, **kwargs):
         posts = posts.filter(category__name=kwargs['cat_name'])
     if kwargs.get('author_uname') is not None:
         posts = posts.filter(author__username=kwargs['author_uname'])
+    try:
+        posts = Paginator(posts, 2)
+        page_number = request.GET.get('page')
+        posts = posts.get_page(page_number)
+    except PageNotAnInteger:
+        posts = posts.get_page(1)
+    except EmptyPage:
+        posts = posts.get_page(1)
+
     return render(request, 'blog/blog_home.html', {'posts': posts})
 
 def blog_details(request, pid):

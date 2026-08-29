@@ -33,8 +33,9 @@
                             <div class="overlay overlay-bg"></div>
                             <a href="#" target="_blank">
                                 <div class="thumb">
-                                    <img class="content-image img-fluid d-block mx-auto" src={% static 'img/blog/cat-widget1.jpg' %}
-                                         alt="">
+                                    <img class="content-image img-fluid d-block mx-auto"
+                                         src={% static 'img/blog/cat-widget1.jpg' %}
+                                                 alt="">
                                 </div>
                                 <div class="content-details">
                                     <h4 class="content-title mx-auto text-uppercase">Social life</h4>
@@ -51,8 +52,9 @@
                             <div class="overlay overlay-bg"></div>
                             <a href="#" target="_blank">
                                 <div class="thumb">
-                                    <img class="content-image img-fluid d-block mx-auto" src={% static 'img/blog/cat-widget2.jpg' %}
-                                         alt="">
+                                    <img class="content-image img-fluid d-block mx-auto"
+                                         src={% static 'img/blog/cat-widget2.jpg' %}
+                                                 alt="">
                                 </div>
                                 <div class="content-details">
                                     <h4 class="content-title mx-auto text-uppercase">Politics</h4>
@@ -69,8 +71,9 @@
                             <div class="overlay overlay-bg"></div>
                             <a href="#" target="_blank">
                                 <div class="thumb">
-                                    <img class="content-image img-fluid d-block mx-auto" src={% static 'img/blog/cat-widget3.jpg' %}
-                                         alt="">
+                                    <img class="content-image img-fluid d-block mx-auto"
+                                         src={% static 'img/blog/cat-widget3.jpg' %}
+                                                 alt="">
                                 </div>
                                 <div class="content-details">
                                     <h4 class="content-title mx-auto text-uppercase">Food</h4>
@@ -91,56 +94,68 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 posts-list">
-                {% for post in posts %}
-                    <div class="single-post row">
-                        <div class="col-lg-3  col-md-3 meta-details">
-                            <ul class="tags">
-                            {% for cat in post.category.all %}
-                                <li><a href="{% url 'blog:blog_category' cat_name=cat.name %}">{{ cat.name }}{% if not forloop.last %},{% endif %}</a></li>
-                            {% endfor %}
-                            </ul>
-                            <div class="user-details row">
-                                <p class="user-name col-lg-12 col-md-12 col-6"><a href="{% url 'blog:blog_author' author_uname=post.author.username %}">{{ post.author }}</a> <span
-                                        class="lnr lnr-user"></span></p>
-                                <p class="date col-lg-12 col-md-12 col-6"><a href="#">{{ post.published_date|date:"D d M Y"}}</a> <span
-                                        class="lnr lnr-calendar-full"></span></p>
-                                <p class="view col-lg-12 col-md-12 col-6"><a href="#">{{ post.counted_views}}</a> <span
-                                        class="lnr lnr-eye"></span></p>
-                                <p class="comments col-lg-12 col-md-12 col-6"><a href="#">06 Comments</a> <span
-                                        class="lnr lnr-bubble"></span></p>
+                    {% for post in posts %}
+                        <div class="single-post row">
+                            <div class="col-lg-3  col-md-3 meta-details">
+                                <ul class="tags">
+                                    {% for cat in post.category.all %}
+                                        <li><a href="{% url 'blog:blog_category' cat_name=cat.name %}">
+                                            {{ cat.name }}{% if not forloop.last %},{% endif %}</a></li>
+                                    {% endfor %}
+                                </ul>
+                                <div class="user-details row">
+                                    <p class="user-name col-lg-12 col-md-12 col-6"><a
+                                            href="{% url 'blog:blog_author' author_uname=post.author.username %}">{{ post.author }}</a>
+                                        <span
+                                                class="lnr lnr-user"></span></p>
+                                    <p class="date col-lg-12 col-md-12 col-6"><a
+                                            href="#">{{ post.published_date|date:"D d M Y" }}</a> <span
+                                            class="lnr lnr-calendar-full"></span></p>
+                                    <p class="view col-lg-12 col-md-12 col-6"><a href="#">{{ post.counted_views }}</a>
+                                        <span
+                                                class="lnr lnr-eye"></span></p>
+                                    <p class="comments col-lg-12 col-md-12 col-6"><a href="#">06 Comments</a> <span
+                                            class="lnr lnr-bubble"></span></p>
+                                </div>
+                            </div>
+                            <div class="col-lg-9 col-md-9 ">
+                                <div class="feature-img">
+                                    <img class="img-fluid" src="{{ post.img.url }}" alt="">
+                                </div>
+                                <a class="posts-title" href="{% url 'blog:blog_details' pid=post.id %}">
+                                    <h3>{{ post.title }}</h3></a>
+                                <p class="excert">{{ post.content|truncatewords:25 }}</p>
+                                <a href="{% url 'blog:blog_details' pid=post.id %}" class="primary-btn">View More</a>
                             </div>
                         </div>
-                        <div class="col-lg-9 col-md-9 ">
-                            <div class="feature-img">
-                                <img class="img-fluid" src="{{ post.img.url }}" alt="">
-                            </div>
-                            <a class="posts-title" href="{% url 'blog:blog_details' pid=post.id %}"><h3>{{ post.title }}</h3></a>
-                            <p class="excert">{{ post.content|truncatewords:25 }}</p>
-                            <a href="{% url 'blog:blog_details' pid=post.id %}" class="primary-btn">View More</a>
-                        </div>
-                    </div>
-                {% endfor %}
+                    {% endfor %}
                     <nav class="blog-pagination justify-content-center d-flex">
                         <ul class="pagination">
+                        {% if posts.has_previous %}
                             <li class="page-item">
-                                <a href="#" class="page-link" aria-label="Previous">
-		                                    <span aria-hidden="true">
-		                                        <span class="lnr lnr-chevron-left"></span>
-		                                    </span>
+                                <a href="?page={{ posts.previous_page_number }}" class="page-link" aria-label="Previous">
+                                    <span aria-hidden="true">
+                                        <span class="lnr lnr-chevron-left"></span>
+                                    </span>
                                 </a>
                             </li>
-                            <li class="page-item"><a href="#" class="page-link">01</a></li>
-                            <li class="page-item active"><a href="#" class="page-link">02</a></li>
-                            <li class="page-item"><a href="#" class="page-link">03</a></li>
-                            <li class="page-item"><a href="#" class="page-link">04</a></li>
-                            <li class="page-item"><a href="#" class="page-link">09</a></li>
+                        {% endif %}
+                        {% for page in posts.paginator.page_range %}
+                        {% if posts.number == page %}
+                            <li class="page-item active"><a href="?page={{ page }}" class="page-link">{{ page }}</a></li>
+                        {% else %}
+                            <li class="page-item"><a href="?page={{ page }}" class="page-link">{{ page }}</a></li>
+                        {% endif %}
+                        {% endfor %}
+                        {% if posts.has_next %}
                             <li class="page-item">
-                                <a href="#" class="page-link" aria-label="Next">
-		                                    <span aria-hidden="true">
-		                                        <span class="lnr lnr-chevron-right"></span>
-		                                    </span>
+                                <a href="?page={{ posts.next_page_number }}" class="page-link" aria-label="Next">
+                                    <span aria-hidden="true">
+                                        <span class="lnr lnr-chevron-right"></span>
+                                    </span>
                                 </a>
                             </li>
+                        {% endif %}
                         </ul>
                     </nav>
                 </div>
