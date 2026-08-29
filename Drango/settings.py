@@ -9,6 +9,7 @@ https://docs.djangoproject.com/en/6.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.0/ref/settings/
 """
+from django.contrib.messages import constants as DEFAULT_MESSAGE_TAGS
 
 from pathlib import Path
 
@@ -127,3 +128,10 @@ STATICFILES_DIRS = [
     BASE_DIR / 'statics',
 ]
 
+MESSAGE_TAGS = {
+    DEFAULT_MESSAGE_TAGS.DEBUG: 'secondary',
+    DEFAULT_MESSAGE_TAGS.INFO: 'info',
+    DEFAULT_MESSAGE_TAGS.SUCCESS: 'success',
+    DEFAULT_MESSAGE_TAGS.WARNING: 'warning',
+    DEFAULT_MESSAGE_TAGS.ERROR: 'danger', # تبدیل error به danger برای بوت‌استرپ
+}

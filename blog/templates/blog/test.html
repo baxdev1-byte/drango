@@ -6,11 +6,11 @@
     <title>Title</title>
 </head>
 <body>
-    <p>TEST: {% top_posts %}</p>
-{#    {% posts as all_posts %}#}
-{#    {% for post in all_posts %}#}
-{#        <p>{{ post.content|snippet:100 }}</p>#}
-{#    {% endfor %}#}
+<form action="{% url 'blog:blog_test' %}" method="post">
+    {% csrf_token %}
+    {{ form.as_p}}
+    <input type="submit" value="OK">
+</form>
 
 </body>
 </html>

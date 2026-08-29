@@ -1,7 +1,6 @@
-from django.shortcuts import render, get_object_or_404
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.shortcuts import render, get_object_or_404
 from blog.models import Post, Category
-
 
 def blog_home(request, **kwargs):
     posts = Post.objects.filter(status=True)
@@ -38,8 +37,6 @@ def blog_search(request):
             posts = posts.filter(title__icontains=search_key)
     return render(request, 'blog/blog_home.html', {'posts': posts})
 
-def test(request):
-    return render(request, 'blog/test.html')
 
 
 
