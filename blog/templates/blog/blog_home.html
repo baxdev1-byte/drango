@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load humanize %}
 {% load blog_tags %}
 {% block title %} Blog {% endblock %}
 
@@ -109,8 +110,12 @@
                                         <span
                                                 class="lnr lnr-user"></span></p>
                                     <p class="date col-lg-12 col-md-12 col-6"><a
-                                            href="#">{{ post.published_date|date:"D d M Y" }}</a> <span
-                                            class="lnr lnr-calendar-full"></span></p>
+                                            href="#">{{ post.published_date|date:"d M Y" }}</a> <span
+                                            class="lnr lnr-calendar-full"></span>
+                                        <a
+                                                href="#">{{ post.published_date|naturaltime }}</a> <span
+                                                class="lnr lnr-calendar-full"></span>
+                                    </p>
                                     <p class="view col-lg-12 col-md-12 col-6"><a href="#">{{ post.counted_views }}</a>
                                         <span
                                                 class="lnr lnr-eye"></span></p>
@@ -131,31 +136,34 @@
                     {% endfor %}
                     <nav class="blog-pagination justify-content-center d-flex">
                         <ul class="pagination">
-                        {% if posts.has_previous %}
-                            <li class="page-item">
-                                <a href="?page={{ posts.previous_page_number }}" class="page-link" aria-label="Previous">
+                            {% if posts.has_previous %}
+                                <li class="page-item">
+                                    <a href="?page={{ posts.previous_page_number }}" class="page-link"
+                                       aria-label="Previous">
                                     <span aria-hidden="true">
                                         <span class="lnr lnr-chevron-left"></span>
                                     </span>
-                                </a>
-                            </li>
-                        {% endif %}
-                        {% for page in posts.paginator.page_range %}
-                        {% if posts.number == page %}
-                            <li class="page-item active"><a href="?page={{ page }}" class="page-link">{{ page }}</a></li>
-                        {% else %}
-                            <li class="page-item"><a href="?page={{ page }}" class="page-link">{{ page }}</a></li>
-                        {% endif %}
-                        {% endfor %}
-                        {% if posts.has_next %}
-                            <li class="page-item">
-                                <a href="?page={{ posts.next_page_number }}" class="page-link" aria-label="Next">
+                                    </a>
+                                </li>
+                            {% endif %}
+                            {% for page in posts.paginator.page_range %}
+                                {% if posts.number == page %}
+                                    <li class="page-item active"><a href="?page={{ page }}"
+                                                                    class="page-link">{{ page }}</a></li>
+                                {% else %}
+                                    <li class="page-item"><a href="?page={{ page }}" class="page-link">{{ page }}</a>
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+                            {% if posts.has_next %}
+                                <li class="page-item">
+                                    <a href="?page={{ posts.next_page_number }}" class="page-link" aria-label="Next">
                                     <span aria-hidden="true">
                                         <span class="lnr lnr-chevron-right"></span>
                                     </span>
-                                </a>
-                            </li>
-                        {% endif %}
+                                    </a>
+                                </li>
+                            {% endif %}
                         </ul>
                     </nav>
                 </div>

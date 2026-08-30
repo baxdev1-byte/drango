@@ -27,6 +27,12 @@ SECRET_KEY = 'django-insecure-8!d%&+dfarm^%#^r%sok&n_f1wzkok0!bv$!m1-%b(kp94dp^%
 DEBUG = True
 
 ALLOWED_HOSTS = []
+#sites framework
+SITE_ID = 2
+
+#robots
+ROBOTS_USE_HOST = False
+ROBOTS_USE_SITEMAP = False
 
 
 # Application definition
@@ -38,9 +44,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.humanize',
+    'django.contrib.sites',
+    'django.contrib.sitemaps',
+    'robots',
     # Installed Apps
     'website.apps.WebsiteConfig',
-    'blog.apps.BlogConfig'
+    'blog.apps.BlogConfig',
 ]
 
 MIDDLEWARE = [
