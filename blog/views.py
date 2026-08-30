@@ -4,11 +4,16 @@ from blog.models import Post, Category
 
 def blog_home(request, **kwargs):
     posts = Post.objects.filter(status=True)
-    print(kwargs)
+    """if user select posts by categories"""
     if kwargs.get('cat_name') is not None:
         posts = posts.filter(category__name=kwargs['cat_name'])
+    """if user select posts by author"""
     if kwargs.get('author_uname') is not None:
         posts = posts.filter(author__username=kwargs['author_uname'])
+    """if user select posts by tag"""
+    if kwargs.get('tag_name') is not None:
+        posts = posts.filter(tag__name=kwargs['tag_name'])
+
     try:
         posts = Paginator(posts, 2)
         page_number = request.GET.get('page')

@@ -1,5 +1,5 @@
 from django import template
-from blog.models import Post, Category
+from blog.models import Post, Category, Tag
 
 register = template.Library()
 
@@ -23,3 +23,8 @@ def postscategory():
     for cat in categories:
         cat_dict[cat] = Post.objects.filter(status=1, category=cat).count()
     return {'categories': cat_dict}
+
+@register.inclusion_tag('blog/blog_poststags.html')
+def poststags():
+    tags = Tag.objects.all()
+    return {'tags': tags}
