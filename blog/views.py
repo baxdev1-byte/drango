@@ -14,14 +14,9 @@ def blog_home(request, **kwargs):
     if kwargs.get('tag_name') is not None:
         posts = posts.filter(tag__name=kwargs['tag_name'])
 
-    try:
-        posts = Paginator(posts, 2)
-        page_number = request.GET.get('page')
-        posts = posts.get_page(page_number)
-    except PageNotAnInteger:
-        posts = posts.get_page(1)
-    except EmptyPage:
-        posts = posts.get_page(1)
+    posts = Paginator(posts, 2)
+    page_number = request.GET.get('page')
+    posts = posts.get_page(page_number)
 
     return render(request, 'blog/blog_home.html', {'posts': posts})
 

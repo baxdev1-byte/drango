@@ -34,8 +34,14 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path("sitemap.xml",sitemap,{"sitemaps": sitemaps},name="django.contrib.sitemaps.views.sitemap",),
     path('robots.txt', include('robots.urls')),
+    path('summernote/', include('django_summernote.urls')),
 
-] + debug_toolbar_urls()
+]
+
+if settings.ENABLE_DEBUG_TOOLBAR:
+    urlpatterns += [
+        path("__debug__/", include("debug_toolbar.urls")),
+    ]
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
