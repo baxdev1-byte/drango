@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'robots',
     'django_summernote',
     'debug_toolbar',
+    'captcha',
     # Installed Apps
     'website.apps.WebsiteConfig',
     'blog.apps.BlogConfig',

@@ -33,3 +33,16 @@ class Post(models.Model):
 
     def get_absolute_url(self):
         return reverse("blog:blog_details", kwargs={'pid':self.id})
+
+class Comment(models.Model):
+    post = models.ForeignKey(Post, related_name='comments', on_delete=models.CASCADE)
+    author = models.ForeignKey(User, related_name='comments' ,on_delete=models.CASCADE)
+    email = models.EmailField()
+    subject = models.CharField(max_length=100)
+    message = models.TextField()
+    approved = models.BooleanField(default=False)
+    created_date = models.DateTimeField(auto_now_add=True)
+    updated_date = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f'{self.author}: {self.subject[:25]}'

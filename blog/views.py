@@ -1,6 +1,11 @@
+from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.shortcuts import render, get_object_or_404
-from blog.models import Post, Category
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib import messages
+
+from blog.forms import CommentForm
+from blog.models import Post, Category, Comment
+
 
 def blog_home(request, **kwargs):
     posts = Post.objects.filter(status=True)
@@ -20,9 +25,26 @@ def blog_home(request, **kwargs):
 
     return render(request, 'blog/blog_home.html', {'posts': posts})
 
+@login_required
 def blog_details(request, pid):
     posts = get_object_or_404(Post, pk=pid, status=1)
-    return render(request, 'blog/blog_detail.html', context={'posts': posts})
+    comments = Comment.objects.filter(post=posts.id, approved=True)
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+
+            comment.post = posts
+            comment.author = request.user
+            comment.save()
+
+            messages.success(request, 'Your comment has been posted.')
+            return redirect('blog:blog_details', pid=pid)
+        else:
+            messages.error(request, 'Please correct the error below.')
+    else:
+        form = CommentForm()
+    return render(request, 'blog/blog_detail.html', context={'posts': posts, 'comments': comments, 'form': form})
 
 def blog_category(request, cat_name):
     # posts = Post.objects.filter(status=True, category__name=name)
@@ -36,7 +58,3 @@ def blog_search(request):
         if search_key := request.GET.get('s'):
             posts = posts.filter(title__icontains=search_key)
     return render(request, 'blog/blog_home.html', {'posts': posts})
-
-
-
-
