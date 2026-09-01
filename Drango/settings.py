@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     # Installed Apps
     'website.apps.WebsiteConfig',
     'blog.apps.BlogConfig',
+    'accounts.apps.AccountsConfig',
 ]
 
 MIDDLEWARE = [

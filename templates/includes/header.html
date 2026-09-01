@@ -4,10 +4,17 @@
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-lg-6 col-sm-6 col-6 header-top-left">
+                {% if request.user.is_authenticated %}
                     <ul>
-                        <li><a href="#">Visit Us</a></li>
-                        <li><a href="#">Buy Tickets</a></li>
+                        <li><a href="{% url 'accounts:login' %}">login as {{ user.username }}</a></li>
+                        <li><a href="{% url 'accounts:logout' %}">logout</a></li>
                     </ul>
+                {% else %}
+                    <ul>
+                        <li><a href="{% url 'accounts:login' %}">login</a></li>
+                        <li><a href="{% url 'accounts:signup' %}">sing up</a></li>
+                    </ul>
+                {% endif %}
                 </div>
                 <div class="col-lg-6 col-sm-6 col-6 header-top-right">
                     <div class="header-social">
@@ -30,17 +37,6 @@
                     <li><a href="{% url 'website:home' %}">Home</a></li>
                     <li><a href="{% url 'website:about' %}">About</a></li>
                     <li><a href="{% url 'blog:blog_home' %}">Blog</a></li>
-                    <li class="menu-has-children"><a href="">Pages</a>
-                        <ul>
-                            <li><a href="elements.html">Elements</a></li>
-                            <li class="menu-has-children"><a href="">Level 2 </a>
-                                <ul>
-                                    <li><a href="#">Item One</a></li>
-                                    <li><a href="#">Item Two</a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
                     <li><a href="{% url 'website:contact' %}">Contact</a></li>
                 </ul>
             </nav><!-- #nav-menu-container -->
